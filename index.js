@@ -19,7 +19,7 @@ restService.post('/hook', function (req, res) {
             var requestBody = req.body;
 
             if (requestBody.result) {
-                data=requestBody.result.item;
+                data=requestBody.result.parameters.item;
             }
         }
 
