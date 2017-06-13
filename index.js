@@ -50,6 +50,35 @@ restService.post('/hook', function (req, res) {
     }
 });
 
+restService.post('/mobileapp', function (req, res) {
+
+    console.log('mobileapp request');
+
+    try {
+        var speech = '';
+
+        if (req.body) {
+            speech=req.body.mailid;
+        }
+
+        console.log('result: ', speech);
+
+        return res.json({
+            speech: 'Mail Id: '+speech,
+            source: 'apiai-webhook-sample'
+        });
+    } catch (err) {
+        console.error("Can't process request", err);
+
+        return res.status(400).json({
+            status: {
+                code: 400,
+                errorType: err.message
+            }
+        });
+    }
+});
+
 restService.listen((process.env.PORT || 5000), function () {
     console.log("Server listening");
 });
