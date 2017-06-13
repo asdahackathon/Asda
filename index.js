@@ -7,35 +7,27 @@ const bodyParser = require('body-parser');
 const restService = express();
 restService.use(bodyParser.json());
 
+var data='';var mailid='';
+
 restService.post('/hook', function (req, res) {
 
     console.log('hook request');
 
     try {
-        var speech = 'empty speech';
 
         if (req.body) {
             var requestBody = req.body;
 
             if (requestBody.result) {
-                speech = '';
-
-                if (requestBody.result.fulfillment) {
-                    speech += requestBody.result.fulfillment.speech;
-                    speech += ' ';
-                }
-
-                if (requestBody.result.action) {
-                    speech += 'action: ' + requestBody.result.action;
-                }
+                data=requestBody.result.item;
             }
         }
 
-        console.log('result: ', speech);
+        console.log('result: ', data);
 
         return res.json({
-            speech: speech +'Shanky rocks',
-            displayText: speech,
+            speech: "Please open ASDA app on mobile",
+            displayText: "Please open ASDA app on mobile",
             source: 'apiai-webhook-sample'
         });
     } catch (err) {
@@ -55,16 +47,16 @@ restService.post('/mobileapp', function (req, res) {
     console.log('mobileapp request');
 
     try {
-        var speech = '';
 
         if (req.body) {
-            speech=req.body.mailid;
+            mailid=req.body.mailid;
         }
 
-        console.log('result: ', speech);
+        console.log('result: ', mailid+' '+data);
 
         return res.json({
-            speech: 'Mail Id: '+speech,
+            mailId: mailid,
+            item: data,
             source: 'apiai-webhook-sample'
         });
     } catch (err) {
