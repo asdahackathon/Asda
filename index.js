@@ -34,7 +34,7 @@ restService.post('/hook', function (req, res) {
         console.log('result: ', speech);
 
         return res.json({
-            speech: speech,
+            speech: speech +'Shanky rocks',
             displayText: speech,
             source: 'apiai-webhook-sample'
         });
