@@ -23,8 +23,6 @@ restService.post('/hook', function (req, res) {
             }
         }
 
-        console.log('result: ', data);
-
         return res.json({
             speech: "Please open ASDA app on mobile",
             displayText: "Please open ASDA app on mobile",
@@ -44,7 +42,7 @@ restService.post('/hook', function (req, res) {
 
 restService.post('/mobileapp', function (req, res) {
 
-    var mailId;
+    var mailId='';
     console.log('mobileapp request');
 
     try {
@@ -52,8 +50,6 @@ restService.post('/mobileapp', function (req, res) {
         if (req.body) {
             mailId=req.body.mailId;
         }
-
-        console.log('result: ', mailid+' '+data);
 
         if(data[mailId]){
             return res.json({
