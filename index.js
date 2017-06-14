@@ -7,7 +7,7 @@ const bodyParser = require('body-parser');
 const restService = express();
 restService.use(bodyParser.json());
 
-var data='';var mailid='';
+var data={};
 
 restService.post('/hook', function (req, res) {
 
@@ -19,7 +19,7 @@ restService.post('/hook', function (req, res) {
             var requestBody = req.body;
 
             if (requestBody.result) {
-                data=requestBody.result.parameters.item;
+                data[requestBody.result.parameters.mailId]=requestBody.result.parameters.item;
             }
         }
 
@@ -44,19 +44,20 @@ restService.post('/hook', function (req, res) {
 
 restService.post('/mobileapp', function (req, res) {
 
+    var mailId;
     console.log('mobileapp request');
 
     try {
 
         if (req.body) {
-            mailid=req.body.mailid;
+            mailId=req.body.mailId;
         }
 
         console.log('result: ', mailid+' '+data);
 
         return res.json({
-            mailId: mailid,
-            item: data,
+            mailId: mailId,
+            item: data[mailId],
             source: 'apiai-webhook-sample'
         });
     } catch (err) {
