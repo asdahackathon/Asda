@@ -55,11 +55,21 @@ restService.post('/mobileapp', function (req, res) {
 
         console.log('result: ', mailid+' '+data);
 
-        return res.json({
+        if(data[mailId]){
+            return res.json({
             mailId: mailId,
             item: data[mailId],
-            source: 'apiai-webhook-sample'
+            status: 'Success'
         });
+        }
+        else {
+            return res.json({
+            mailId: mailId,
+            item: null,
+            status: 'Mail Id not found'
+        });
+        }
+        
     } catch (err) {
         console.error("Can't process request", err);
 
