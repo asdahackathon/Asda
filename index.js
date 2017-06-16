@@ -27,7 +27,15 @@ restService.post('/hook', function (req, res) {
             var requestBody = req.body;
 
             if (requestBody.result) {
-                data[requestBody.result.parameters.mailId]=requestBody.result.parameters.item;
+                if(flag)
+                {
+                    fs.writeFile(__dirname + '/data.txt', JSON.stringify(data[mailId]), function(err) {
+                    if(err) {
+                        return console.log(err);
+                    }
+                    });
+                    data[requestBody.result.parameters.mailId]=requestBody.result.parameters.item;
+                }
             }
         }
 
@@ -59,16 +67,7 @@ restService.post('/mobileapp', function (req, res) {
             mailId=req.body.mailId;
         }
 
-        if(data[mailId]){
-            if(flag)
-            {
-                fs.writeFile(__dirname + '/data.txt', JSON.stringify(data[mailId]), function(err) {
-                if(err) {
-                    return console.log(err);
-                }
-                });
-            }
-
+        if(data[mailId]){          
             return res.json({
             mailId: mailId,
             item: data[mailId].toUpperCase(),
