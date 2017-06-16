@@ -7,15 +7,7 @@ const bodyParser = require('body-parser');
 const restService = express();
 restService.use(bodyParser.json());
 
-var data={};var flag=false;
-
-fs.readFile(__dirname + '/data.txt', 'utf8', function(err, contents) {
-    if(err) {
-        return console.log(err);
-    }
-    data=(JSON.parse(contents));
-    flag=true;
-    });
+var data={};
 
 restService.post('/hook', function (req, res) {
 
@@ -27,15 +19,7 @@ restService.post('/hook', function (req, res) {
             var requestBody = req.body;
 
             if (requestBody.result) {
-                if(flag)
-                {
-                    fs.writeFile(__dirname + '/data.txt', JSON.stringify(data[mailId]), function(err) {
-                    if(err) {
-                        return console.log(err);
-                    }
-                    });
-                    data[requestBody.result.parameters.mailId]=requestBody.result.parameters.item;
-                }
+                data[requestBody.result.parameters.mailId]=requestBody.result.parameters.item;
             }
         }
 
@@ -67,7 +51,7 @@ restService.post('/mobileapp', function (req, res) {
             mailId=req.body.mailId;
         }
 
-        if(data[mailId]){          
+        if(data[mailId]){
             return res.json({
             mailId: mailId,
             item: data[mailId].toUpperCase(),
