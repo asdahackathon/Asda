@@ -54,7 +54,7 @@ restService.post('/mobileapp', function (req, res) {
         if(data[mailId]){
             return res.json({
             mailId: mailId,
-            item: data[mailId],
+            item: data[mailId].toUpperCase(),
             status: 'Success'
         });
         }
