@@ -19,20 +19,41 @@ restService.post('/hook', function (req, res) {
             var body = req.body;
             var mailId='';
 
-            if (body.result.action=='asdaItem') {
+            switch(body.result.action){
+                case 'asdaItem':
                 for(var i of body.result.contexts){
                     if(i.name=='mail-set'){
                         mailId=i.parameters.mailId;
                     }
                 }
                 data[mailId]={'item':body.result.parameters.item, 'tab':'browse'};
+                return res.json({
+                        speech: "Please open asda app on mobile. Would you like to view related offers?",
+                        displayText: "Please open asda app on mobile. Would you like to view related offers?",
+                        source: 'apiai-webhook'
+                    });
+                break;
+
+                case 'asdaOffers':
+                for(var i of body.result.contexts){
+                    if(i.name=='mail-set'){
+                        mailId=i.parameters.mailId;
+                    }
+                }
+                data[mailId].tab='offers';
+                return res.json({
+                        speech: "Offers displayed on app",
+                        displayText: "Offers displayed on app",
+                        source: 'apiai-webhook'
+                    });
+                break;
             }
         }
 
         return res.json({
-            speech: "Please open ASDA app on mobile. Would you like to view related offers?",
-            displayText: "Please open ASDA app on mobile. Would you like to view related offers?",
-            source: 'apiai-webhook-sample'
+            speech: "Webhook input error",
+            displayText: "Webhook input error",
+            source: 'apiai-webhook'
         });
     } catch (err) {
         console.error("Can't process request", err);
