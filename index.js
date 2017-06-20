@@ -19,13 +19,24 @@ restService.post('/hook', function (req, res) {
             var body = req.body;
             var mailId='';
 
-            if (body.result.action=='asdaItem') {
+            switch(body.result.action){
+                case 'asdaItem':
                 for(var i of body.result.contexts){
                     if(i.name=='mail-set'){
                         mailId=i.parameters.mailId;
                     }
                 }
                 data[mailId]={'item':body.result.parameters.item, 'tab':'browse'};
+                break;
+
+                case 'asdaOffers':
+                for(var i of body.result.contexts){
+                    if(i.name=='mail-set'){
+                        mailId=i.parameters.mailId;
+                    }
+                }
+                data[mailId].tab='offers';
+                break;
             }
         }
 
