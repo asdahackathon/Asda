@@ -30,8 +30,8 @@ restService.post('/hook', function (req, res) {
         }
 
         return res.json({
-            speech: "Please open ASDA app on mobile. Would you like to view related offers?",
-            displayText: "Please open ASDA app on mobile. Would you like to view related offers?",
+            speech: "Please open asda app on mobile. Would you like to view related offers?",
+            displayText: "Please open asda app on mobile. Would you like to view related offers?",
             source: 'apiai-webhook-sample'
         });
     } catch (err) {
