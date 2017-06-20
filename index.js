@@ -16,16 +16,22 @@ restService.post('/hook', function (req, res) {
     try {
 
         if (req.body) {
-            var requestBody = req.body;
+            var body = req.body;
+            var mailId='';
 
-            if (requestBody.result) {
-                data[requestBody.result.parameters.mailId]=requestBody.result.parameters.item;
+            if (body.result.action=='asdaItem') {
+                for(var i of body.result.contexts){
+                    if(i.name=='mail-set'){
+                        mailId=i.parameters.mailId;
+                    }
+                }
+                data[mailId]={'item':body.result.parameters.item, 'tab':'browse'};
             }
         }
 
         return res.json({
-            speech: "Please open ASDA app on mobile",
-            displayText: "Please open ASDA app on mobile",
+            speech: "Please open ASDA app on mobile. Would you like to view related offers?",
+            displayText: "Please open ASDA app on mobile. Would you like to view related offers?",
             source: 'apiai-webhook-sample'
         });
     } catch (err) {
@@ -54,7 +60,8 @@ restService.post('/mobileapp', function (req, res) {
         if(data[mailId]){
             return res.json({
             mailId: mailId,
-            item: data[mailId].toUpperCase(),
+            item: data[mailId].item.toUpperCase(),
+            tab: data[mailId].tab,
             status: 'Success'
         });
         }
@@ -62,6 +69,7 @@ restService.post('/mobileapp', function (req, res) {
             return res.json({
             mailId: mailId,
             item: null,
+            tab: null,
             status: 'Mail Id not found'
         });
         }
