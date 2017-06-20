@@ -19,8 +19,8 @@ restService.post('/hook', function (req, res) {
             var body = req.body;
             var mailId='';
 
-            if (body.action=='asdaItem') {
-                for(var i of body.contexts){
+            if (body.result.action=='asdaItem') {
+                for(var i of body.result.contexts){
                     if(i.name=='mail-set'){
                         mailId=i.mailId;
                     }
