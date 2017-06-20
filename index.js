@@ -22,7 +22,7 @@ restService.post('/hook', function (req, res) {
             if (body.result.action=='asdaItem') {
                 for(var i of body.result.contexts){
                     if(i.name=='mail-set'){
-                        mailId=i.mailId;
+                        mailId=i.parameters.mailId;
                     }
                 }
                 data[mailId]={'item':body.result.parameters.item, 'tab':'browse'};
