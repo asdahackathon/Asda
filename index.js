@@ -99,6 +99,7 @@ restService.post('/mobileapp', function (req, res) {
             mailId: mailId,
             item: data[mailId].item.toUpperCase(),
             tab: data[mailId].tab,
+            orderLocation: data[mailId].orderLocation,
             status: 'Success'
         });
         }
@@ -107,6 +108,7 @@ restService.post('/mobileapp', function (req, res) {
             mailId: mailId,
             item: null,
             tab: null,
+            orderLocation: null,
             status: 'Mail Id not found'
         });
         }
