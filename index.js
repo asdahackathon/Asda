@@ -26,10 +26,10 @@ restService.post('/hook', function (req, res) {
                         mailId=i.parameters.mailId;
                     }
                 }
-                data[mailId]={'item':body.result.parameters.item, 'tab':'browse'};
+                data[mailId]={'item':body.result.parameters.item, 'tab':'browse', 'orderLocation':null};
                 return res.json({
-                        speech: "Please open asda app on mobile. Would you like to view related offers?",
-                        displayText: "Please open asda app on mobile. Would you like to view related offers?",
+                        speech: 'Please open asda app on mobile. Would you like to view related offers?',
+                        displayText: 'Please open asda app on mobile. Would you like to view related offers?',
                         source: 'apiai-webhook'
                     });
                 break;
@@ -41,9 +41,25 @@ restService.post('/hook', function (req, res) {
                     }
                 }
                 data[mailId].tab='offers';
+                data[mailId].orderLocation=null;
                 return res.json({
-                        speech: "Offers displayed on app",
-                        displayText: "Offers displayed on app",
+                        speech: 'Offers displayed on app',
+                        displayText: 'Offers displayed on app',
+                        source: 'apiai-webhook'
+                    });
+                break;
+
+                case 'asdaTrack':
+                for(var i of body.result.contexts){
+                    if(i.name=='mail-set'){
+                        mailId=i.parameters.mailId;
+                    }
+                }
+                data[mailId].tab='track';
+                data[mailId].orderLocation='53.792033,-1.545054';
+                return res.json({
+                        speech: 'Order tracking info displayed on app',
+                        displayText: 'Order tracking info displayed on app',
                         source: 'apiai-webhook'
                     });
                 break;
@@ -51,8 +67,8 @@ restService.post('/hook', function (req, res) {
         }
 
         return res.json({
-            speech: "Webhook input error",
-            displayText: "Webhook input error",
+            speech: 'Webhook input error',
+            displayText: 'Webhook input error',
             source: 'apiai-webhook'
         });
     } catch (err) {
@@ -83,6 +99,7 @@ restService.post('/mobileapp', function (req, res) {
             mailId: mailId,
             item: data[mailId].item.toUpperCase(),
             tab: data[mailId].tab,
+            orderLocation: data[mailId].orderLocation,
             status: 'Success'
         });
         }
@@ -91,6 +108,7 @@ restService.post('/mobileapp', function (req, res) {
             mailId: mailId,
             item: null,
             tab: null,
+            orderLocation: null,
             status: 'Mail Id not found'
         });
         }
@@ -108,5 +126,5 @@ restService.post('/mobileapp', function (req, res) {
 });
 
 restService.listen((process.env.PORT || 5000), function () {
-    console.log("Server listening");
+    console.log('Server listening');
 });
