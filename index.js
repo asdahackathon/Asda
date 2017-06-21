@@ -55,8 +55,14 @@ restService.post('/hook', function (req, res) {
                         mailId=i.parameters.mailId;
                     }
                 }
-                data[mailId].tab='track';
-                data[mailId].orderLocation='53.792033,-1.545054';
+                var location='53.792033,-1.545054';
+                if(data[mailId]){
+                    data[mailId].tab='track';
+                    data[mailId].orderLocation=location;
+                }
+                else{
+                    data[mailId]={'item':null, 'tab':'track', 'orderLocation':location};
+                }
                 return res.json({
                         speech: 'Order tracking info displayed on app',
                         displayText: 'Order tracking info displayed on app',
