@@ -65,6 +65,13 @@ restService.post('/hook', function (req, res) {
                 break;
 
                 case 'asdaStoreLocator':
+                for(var i of body.result.contexts){
+                    if(i.name=='mail-set'){
+                        mailId=i.parameters.mailId;
+                    }
+                }
+                data[mailId].tab='track';
+                data[mailId].orderLocation='53.792033,-1.545054';
                 return res.json({
                         speech: 'Store tracker',
                         displayText: 'Store tracker',
