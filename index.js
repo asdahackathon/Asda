@@ -26,7 +26,7 @@ restService.post('/hook', function (req, res) {
                         mailId=i.parameters.mailId;
                     }
                 }
-                data[mailId]={'item':body.result.parameters.item, 'tab':'browse', 'orderLocation':null};
+                data[mailId]={'item':body.result.parameters.item, 'tab':'browse', 'orderLocation':null, 'orderlist':null};
                 return res.json({
                         speech: 'Please open asda app on mobile. Would you like to view related offers?',
                         displayText: 'Please open asda app on mobile. Would you like to view related offers?',
@@ -56,13 +56,8 @@ restService.post('/hook', function (req, res) {
                     }
                 }
                 var location='53.792033,-1.545054';
-                if(data[mailId]){
-                    data[mailId].tab='track';
-                    data[mailId].orderLocation=location;
-                }
-                else{
-                    data[mailId]={'item':null, 'tab':'track', 'orderLocation':location};
-                }
+                data[mailId].tab='track';
+                data[mailId].orderLocation=location;
                 return res.json({
                         speech: 'Order tracking info displayed on app',
                         displayText: 'Order tracking info displayed on app',
@@ -70,10 +65,17 @@ restService.post('/hook', function (req, res) {
                     });
                 break;
 
-                case 'asdaStoreLocator':
+                case 'asdaList':
+                for(var i of body.result.contexts){
+                    if(i.name=='mail-set'){
+                        mailId=i.parameters.mailId;
+                    }
+                }
+                data[mailId].tab='list';
+                data[mailId].orderList='carrots,milk,tomato,biscuits';
                 return res.json({
-                        speech: 'Store tracker',
-                        displayText: 'Store tracker',
+                        speech: 'Best picks displayed on app',
+                        displayText: 'Best picks displayed on app',
                         source: 'apiai-webhook'
                     });
                 break;
@@ -114,6 +116,7 @@ restService.post('/mobileapp', function (req, res) {
             item: data[mailId].item.toUpperCase(),
             tab: data[mailId].tab,
             orderLocation: data[mailId].orderLocation,
+            orderList: data[mailId].orderList,
             status: 'Success'
         });
         }
@@ -123,6 +126,7 @@ restService.post('/mobileapp', function (req, res) {
             item: null,
             tab: null,
             orderLocation: null,
+            orderList: null,
             status: 'Mail Id not found'
         });
         }
