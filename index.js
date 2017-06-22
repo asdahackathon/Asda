@@ -26,7 +26,7 @@ restService.post('/hook', function (req, res) {
                         mailId=i.parameters.mailId;
                     }
                 }
-                data[mailId]={'item':body.result.parameters.item, 'tab':'browse', 'orderLocation':null, 'orderlist':null};
+                data[mailId]={'item':body.result.parameters.item, 'tab':'browse', 'orderLocation':null, 'orderList':null};
                 return res.json({
                         speech: 'Please open asda app on mobile. Would you like to view related offers?',
                         displayText: 'Please open asda app on mobile. Would you like to view related offers?',
