@@ -26,7 +26,7 @@ restService.post('/hook', function (req, res) {
                         mailId=i.parameters.mailId;
                     }
                 }
-                data[mailId]={'item':body.result.parameters.item, 'tab':'browse', 'orderLocation':null};
+                data[mailId]={'item':body.result.parameters.item, 'tab':'browse', 'orderLocation':null, 'orderList':null};
                 return res.json({
                         speech: 'Please open asda app on mobile. Would you like to view related offers?',
                         displayText: 'Please open asda app on mobile. Would you like to view related offers?',
@@ -55,11 +55,32 @@ restService.post('/hook', function (req, res) {
                         mailId=i.parameters.mailId;
                     }
                 }
+                var location='53.792033,-1.545054';
                 data[mailId].tab='track';
-                data[mailId].orderLocation='53.792033,-1.545054';
+                data[mailId].orderLocation=location;
                 return res.json({
                         speech: 'Order tracking info displayed on app',
                         displayText: 'Order tracking info displayed on app',
+                        source: 'apiai-webhook'
+                    });
+                break;
+
+                case 'asdaList':
+                for(var i of body.result.contexts){
+                    if(i.name=='mail-set'){
+                        mailId=i.parameters.mailId;
+                    }
+                }
+                data[mailId].tab='list';
+                var list='';
+                for(var i of body.result.parameters.itemList){
+                    list=list+i+',';
+                }
+                list=list.slice(0,list.length-1);
+                data[mailId].orderList=list;
+                return res.json({
+                        speech: 'Best picks displayed on app',
+                        displayText: 'Best picks displayed on app',
                         source: 'apiai-webhook'
                     });
                 break;
@@ -100,6 +121,7 @@ restService.post('/mobileapp', function (req, res) {
             item: data[mailId].item.toUpperCase(),
             tab: data[mailId].tab,
             orderLocation: data[mailId].orderLocation,
+            orderList: data[mailId].orderList,
             status: 'Success'
         });
         }
@@ -109,6 +131,7 @@ restService.post('/mobileapp', function (req, res) {
             item: null,
             tab: null,
             orderLocation: null,
+            orderList: null,
             status: 'Mail Id not found'
         });
         }
