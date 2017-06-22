@@ -57,7 +57,6 @@ restService.post('/hook', function (req, res) {
                 }
                 var location='53.792033,-1.545054';
                 if(data[mailId]){
-                    data[mailId].item = null;
                     data[mailId].tab='track';
                     data[mailId].orderLocation=location;
                 }
