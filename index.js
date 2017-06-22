@@ -72,7 +72,12 @@ restService.post('/hook', function (req, res) {
                     }
                 }
                 data[mailId].tab='list';
-                data[mailId].orderList='carrots,milk,tomato,biscuits';
+                var list='';
+                for(var i of body.result.parameters.itemList){
+                    list=list+i+',';
+                }
+                list=list.slice(0,list.length-1);
+                data[mailId].orderList=list;
                 return res.json({
                         speech: 'Best picks displayed on app',
                         displayText: 'Best picks displayed on app',
