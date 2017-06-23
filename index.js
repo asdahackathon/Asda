@@ -143,7 +143,7 @@ restService.post('/mobileapp', function (req, res) {
         if(data[mailId]){
             return res.json({
             mailId: mailId,
-            item: item,
+            item: data[mailId].item,
             tab: data[mailId].tab,
             orderLocation: data[mailId].orderLocation,
             orderList: data[mailId].orderList,
