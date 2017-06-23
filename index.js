@@ -99,8 +99,8 @@ restService.post('/hook', function (req, res) {
                 list=list.slice(0,list.length-1);
                 data[mailId].orderList=data[mailId].orderList+','+list;
                 return res.json({
-                        speech: 'Did I miss any items?',
-                        displayText: 'Did I miss any items?',
+                        speech: 'Our best picks are displayed on your app',
+                        displayText: 'Our best picks are displayed on your app',
                         source: 'apiai-webhook'
                     });
                 break;
