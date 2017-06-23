@@ -71,13 +71,18 @@ restService.post('/hook', function (req, res) {
                         mailId=i.parameters.mailId;
                     }
                 }
-                data[mailId].tab='list';
                 var list='';
                 for(var i of body.result.parameters.itemList){
                     list=list+i+',';
                 }
                 list=list.slice(0,list.length-1);
-                data[mailId].orderList=list;
+                if(data[mailId]){
+                    data[mailId].tab='list';
+                    data[mailId].orderList=list;
+                }
+                else{
+                    data[mailId]={'item':null, 'tab':'list', 'orderLocation':null, 'orderList':list};
+                }
                 return res.json({
                         speech: 'Did I miss any items?',
                         displayText: 'Did I miss any items?',
