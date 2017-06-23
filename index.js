@@ -26,7 +26,7 @@ restService.post('/hook', function (req, res) {
                         mailId=i.parameters.mailId;
                     }
                 }
-                data[mailId]={'item':body.result.parameters.item, 'tab':'browse', 'orderLocation':null, 'orderList':null};
+                data[mailId]={'item':body.result.parameters.item.toUpperCase(), 'tab':'browse', 'orderLocation':null, 'orderList':null};
                 return res.json({
                         speech: 'Please open asda app on mobile. Would you like to view related offers?',
                         displayText: 'Please open asda app on mobile. Would you like to view related offers?',
@@ -143,7 +143,7 @@ restService.post('/mobileapp', function (req, res) {
         if(data[mailId]){
             return res.json({
             mailId: mailId,
-            item: (item==null?)(null:data[mailId].item.toUpperCase()),
+            item: item,
             tab: data[mailId].tab,
             orderLocation: data[mailId].orderLocation,
             orderList: data[mailId].orderList,
